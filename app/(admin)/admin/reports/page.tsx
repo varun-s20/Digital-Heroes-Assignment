@@ -67,18 +67,21 @@ export default async function AdminReportsPage() {
 
   // Group charity contributions
   const charityTotals: Record<string, { name: string; total: number }> = {};
-  (contributions ?? []).forEach(
-    (c: { charity_id: string; charities: { name: string } | null; amount: number }) => {
-      if (!c.charity_id) return;
-      if (!charityTotals[c.charity_id]) {
-        charityTotals[c.charity_id] = {
-          name: c.charities?.name ?? "Unknown",
-          total: 0,
-        };
-      }
-      charityTotals[c.charity_id].total += c.amount;
+  (contributions as any[] ?? []).forEach((c) => {
+    if (!c.charity_id) return;
+    
+    // Supabase can return joined data as an array or a single object
+    const charitiesData = Array.isArray(c.charities) ? c.charities[0] : c.charities;
+    const charityName = charitiesData?.name ?? "Unknown";
+
+    if (!charityTotals[c.charity_id]) {
+      charityTotals[c.charity_id] = {
+        name: charityName,
+        total: 0,
+      };
     }
-  );
+    charityTotals[c.charity_id].total += c.amount;
+  });
 
   const sortedCharities: CharityStat[] = Object.entries(charityTotals)
     .map(([charity_id, { name, total }]) => ({

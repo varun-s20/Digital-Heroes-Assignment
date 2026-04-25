@@ -14,8 +14,8 @@ import { addScore, deleteScore, editScore } from "@/app/actions/scores";
 import { useRouter } from "next/navigation";
 
 const scoreSchema = z.object({
-  score: z.coerce.number().int("Score must be a whole number.").min(1, "Score must be at least 1").max(45, "Score cannot exceed 45"),
-  date: z.string().nonempty("Date is required"),
+  score: z.coerce.number().int().min(1, "Score must be at least 1").max(45, "Score cannot exceed 45"),
+  date: z.string().min(1, "Date is required"),
 });
 
 type ScoreForm = z.infer<typeof scoreSchema>;
@@ -35,11 +35,16 @@ export default function ScoresClient({ userId, initialScores }: Props) {
   const [isPending, startTransition] = useTransition();
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm<ScoreForm>({
-    resolver: zodResolver(scoreSchema),
-    defaultValues: { score: undefined, date: new Date().toISOString().split("T")[0] },
+    resolver: zodResolver(scoreSchema) as any,
+    defaultValues: { 
+      score: 0, 
+      date: new Date().toISOString().split("T")[0] 
+    },
   });
 
-  const editForm = useForm<ScoreForm>({ resolver: zodResolver(scoreSchema) });
+  const editForm = useForm<ScoreForm>({ 
+    resolver: zodResolver(scoreSchema) as any
+  });
 
   const onSubmit = async (data: ScoreForm) => {
     setServerError(null);

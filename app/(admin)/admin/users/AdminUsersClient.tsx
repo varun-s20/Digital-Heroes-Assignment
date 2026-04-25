@@ -23,10 +23,6 @@ interface Subscription {
   charity_contribution_pct: number | null;
 }
 
-interface Charity {
-  name: string;
-}
-
 interface UserRow {
   id: string;
   full_name: string;
@@ -34,7 +30,6 @@ interface UserRow {
   role: string;
   created_at: string;
   subscriptions: Subscription[] | null;
-  charities: Charity | null;
   scores: Score[] | null;
 }
 

@@ -17,14 +17,14 @@ interface Profile {
   avatar_url: string | null;
 }
 
-interface Subscription {
+type Subscription = {
   id: string;
   plan: string;
   status: string;
   current_period_end: string;
   cancel_at_period_end: boolean;
   charity_contribution_pct: number;
-} | null
+} | null;
 
 interface Props {
   userId: string;

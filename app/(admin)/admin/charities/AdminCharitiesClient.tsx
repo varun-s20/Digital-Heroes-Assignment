@@ -18,8 +18,7 @@ interface Charity {
   description: string | null;
   image_url: string | null;
   total_raised: number;
-  subscriber_count: number;
-  status: string;
+  is_active: boolean;
 }
 
 interface Props {
@@ -29,10 +28,10 @@ interface Props {
 const emptyForm = {
   name: "",
   slug: "",
-  category: "",
+  category: "other",
   description: "",
   image_url: "",
-  status: "active",
+  is_active: true,
 };
 
 export default function AdminCharitiesClient({ charities }: Props) {
@@ -45,9 +44,8 @@ export default function AdminCharitiesClient({ charities }: Props) {
   const [success, setSuccess] = useState<string | null>(null);
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
 
-  const handleField = (key: string, value: string) => {
+  const handleField = (key: string, value: any) => {
     setForm((prev) => ({ ...prev, [key]: value }));
-    // Auto-generate slug from name
     if (key === "name") {
       setForm((prev) => ({
         ...prev,
@@ -76,7 +74,7 @@ export default function AdminCharitiesClient({ charities }: Props) {
       category: charity.category,
       description: charity.description ?? "",
       image_url: charity.image_url ?? "",
-      status: charity.status,
+      is_active: charity.is_active,
     });
     setError(null);
     setSuccess(null);
@@ -154,12 +152,11 @@ export default function AdminCharitiesClient({ charities }: Props) {
         </span>
       ),
     },
-    { header: "Supporters", accessorKey: "subscriber_count" as keyof Charity },
     {
       header: "Status",
       cell: (c: Charity) => (
-        <Badge variant={c.status === "active" ? "success" : "secondary"}>
-          {c.status}
+        <Badge variant={c.is_active ? "success" : "secondary"}>
+          {c.is_active ? "Active" : "Inactive"}
         </Badge>
       ),
     },
@@ -246,7 +243,6 @@ export default function AdminCharitiesClient({ charities }: Props) {
         </div>
       )}
 
-      {/* Add / Edit Form */}
       {showForm && (
         <div className="bg-surface border border-border rounded-2xl p-6 space-y-6">
           <div className="flex items-center justify-between">
@@ -283,12 +279,19 @@ export default function AdminCharitiesClient({ charities }: Props) {
             </div>
             <div className="space-y-2">
               <Label htmlFor="c-cat">Category *</Label>
-              <Input
+              <select
                 id="c-cat"
+                className="w-full bg-bg border border-border rounded-md px-3 py-2 text-sm text-text"
                 value={form.category}
                 onChange={(e) => handleField("category", e.target.value)}
-                placeholder="health, environment, youth, etc."
-              />
+              >
+                <option value="environment">Environment</option>
+                <option value="health">Health</option>
+                <option value="community">Community</option>
+                <option value="sport">Sport</option>
+                <option value="education">Education</option>
+                <option value="other">Other</option>
+              </select>
             </div>
             <div className="space-y-2">
               <Label htmlFor="c-img">Image URL</Label>
@@ -310,20 +313,16 @@ export default function AdminCharitiesClient({ charities }: Props) {
                 placeholder="A short description of this charity..."
               />
             </div>
-            {editingId && (
-              <div className="space-y-2">
-                <Label htmlFor="c-status">Status</Label>
-                <select
-                  id="c-status"
-                  className="w-full bg-surface border border-border rounded-md px-3 py-2 text-sm text-text"
-                  value={form.status}
-                  onChange={(e) => handleField("status", e.target.value)}
-                >
-                  <option value="active">Active</option>
-                  <option value="inactive">Inactive</option>
-                </select>
-              </div>
-            )}
+            <div className="flex items-center space-x-2 pt-2">
+              <input
+                type="checkbox"
+                id="c-active"
+                checked={form.is_active}
+                onChange={(e) => handleField("is_active", e.target.checked)}
+                className="h-4 w-4 rounded border-border bg-bg text-accent focus:ring-accent"
+              />
+              <Label htmlFor="c-active">Active (Visible on platform)</Label>
+            </div>
           </div>
 
           <div className="flex gap-3 pt-2">

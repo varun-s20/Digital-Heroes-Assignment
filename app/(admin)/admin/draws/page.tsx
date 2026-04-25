@@ -17,7 +17,7 @@ export default async function AdminDrawsPage() {
     .select('*')
     .order('draw_month', { ascending: false })
 
-  const { data: activeSubsCount } = await adminSupabase
+  const { count: activeSubsCount } = await adminSupabase
     .from('subscriptions')
     .select('id', { count: 'exact', head: true })
     .eq('status', 'active')

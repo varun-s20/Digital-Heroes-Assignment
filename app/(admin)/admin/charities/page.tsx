@@ -20,7 +20,7 @@ export default async function AdminCharitiesPage() {
 
   const { data: charities } = await adminSupabase
     .from("charities")
-    .select("id, name, slug, category, description, image_url, total_raised, subscriber_count, status")
+    .select("id, name, slug, category, description, image_url, total_raised, is_active")
     .order("name");
 
   return <AdminCharitiesClient charities={charities ?? []} />;

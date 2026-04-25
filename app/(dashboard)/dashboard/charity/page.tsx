@@ -19,8 +19,8 @@ export default async function CharityDashboardPage() {
   // Fetch all active charities
   const { data: charities } = await supabase
     .from("charities")
-    .select("id, name, slug, category, description, image_url, total_raised, subscriber_count")
-    .eq("status", "active")
+    .select("id, name, slug, category, description, image_url, total_raised, is_active")
+    .eq("is_active", true)
     .order("name");
 
   const planAmount = subscription?.plan === "yearly" ? 99.90 / 12 : 9.99;

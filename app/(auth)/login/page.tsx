@@ -10,28 +10,28 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z as zodSchema } from "zod";
 import { useSearchParams, useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { useState } from "react";
 import { Loader2 } from "lucide-react";
+import { useState, Suspense } from "react";
 
 const loginSchema = zodSchema.object({
   email: zodSchema.string().email({ message: "Please enter a valid email address" }),
   password: zodSchema.string().min(6, { message: "Password must be at least 6 characters" }),
 });
 
-type LoginForm = zodSchema.infer<typeof loginSchema>;
+type LoginFormValues = zodSchema.infer<typeof loginSchema>;
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectUrl = searchParams.get("redirect") || "/dashboard";
   const [serverError, setServerError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { register, handleSubmit, formState: { errors } } = useForm<LoginForm>({
+  const { register, handleSubmit, formState: { errors } } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = async (data: LoginForm) => {
+  const onSubmit = async (data: LoginFormValues) => {
     setIsLoading(true);
     setServerError(null);
     const supabase = createClient();
@@ -140,5 +140,19 @@ export default function LoginPage() {
         </div>
       </CardFooter>
     </Card>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <Card className="bg-surface border-border shadow-2xl backdrop-blur-sm animate-pulse">
+        <div className="h-[400px] flex items-center justify-center">
+          <Loader2 className="h-8 w-8 animate-spin text-accent" />
+        </div>
+      </Card>
+    }>
+      <LoginForm />
+    </Suspense>
   );
 }

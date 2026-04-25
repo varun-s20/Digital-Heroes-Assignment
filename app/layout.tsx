@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { DM_Sans, Fraunces, JetBrains_Mono } from "next/font/google";
+// @ts-ignore
 import "./globals.css";
 
 const dmSans = DM_Sans({

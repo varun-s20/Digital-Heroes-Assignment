@@ -27,6 +27,7 @@ export async function addCharity(formData: {
   category: string
   description: string
   image_url: string
+  is_active: boolean
 }): Promise<ActionResult> {
   const { ok, error } = await checkAdmin()
   if (!ok) return { success: false, error }
@@ -38,13 +39,13 @@ export async function addCharity(formData: {
     category: formData.category,
     description: formData.description,
     image_url: formData.image_url,
-    status: 'active',
+    is_active: formData.is_active,
     total_raised: 0,
-    subscriber_count: 0,
   })
 
   if (dbError) return { success: false, error: dbError.message }
   revalidatePath('/admin/charities')
+  revalidatePath('/charities')
   return { success: true }
 }
 
@@ -56,7 +57,7 @@ export async function updateCharity(
     category: string
     description: string
     image_url: string
-    status: string
+    is_active: boolean
   }
 ): Promise<ActionResult> {
   const { ok, error } = await checkAdmin()
@@ -71,12 +72,13 @@ export async function updateCharity(
       category: formData.category,
       description: formData.description,
       image_url: formData.image_url,
-      status: formData.status,
+      is_active: formData.is_active,
     })
     .eq('id', id)
 
   if (dbError) return { success: false, error: dbError.message }
   revalidatePath('/admin/charities')
+  revalidatePath('/charities')
   return { success: true }
 }
 
@@ -92,5 +94,6 @@ export async function deleteCharity(id: string): Promise<ActionResult> {
 
   if (dbError) return { success: false, error: dbError.message }
   revalidatePath('/admin/charities')
+  revalidatePath('/charities')
   return { success: true }
 }

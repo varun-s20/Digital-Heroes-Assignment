@@ -15,8 +15,7 @@ interface Charity {
   description: string | null;
   image_url: string | null;
   total_raised: number;
-  subscriber_count: number;
-  status: string;
+  is_active: boolean;
 }
 
 const ALL_CATEGORIES = "All";
@@ -31,8 +30,8 @@ export default function CharitiesPage() {
     const supabase = createClient();
     supabase
       .from("charities")
-      .select("id, name, slug, category, description, image_url, total_raised, subscriber_count, status")
-      .eq("status", "active")
+      .select("id, name, slug, category, description, image_url, total_raised, is_active")
+      .eq("is_active", true)
       .order("name")
       .then(({ data }) => {
         if (!data) return;
