@@ -1,6 +1,13 @@
 "use client";
 
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,8 +21,12 @@ import { Loader2 } from "lucide-react";
 import { useState, Suspense } from "react";
 
 const loginSchema = zodSchema.object({
-  email: zodSchema.string().email({ message: "Please enter a valid email address" }),
-  password: zodSchema.string().min(6, { message: "Password must be at least 6 characters" }),
+  email: zodSchema
+    .string()
+    .email({ message: "Please enter a valid email address" }),
+  password: zodSchema
+    .string()
+    .min(6, { message: "Password must be at least 6 characters" }),
 });
 
 type LoginFormValues = zodSchema.infer<typeof loginSchema>;
@@ -24,10 +35,15 @@ function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectUrl = searchParams.get("redirect") || "/dashboard";
+  const message = searchParams.get("message");
   const [serverError, setServerError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { register, handleSubmit, formState: { errors } } = useForm<LoginFormValues>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
   });
 
@@ -45,7 +61,9 @@ function LoginForm() {
       return;
     }
     // Check role for redirect
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (user) {
       const { data: profile } = await supabase
         .from("profiles")
@@ -64,7 +82,9 @@ function LoginForm() {
     const supabase = createClient();
     await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: { redirectTo: `${window.location.origin}/auth/callback?redirect=${redirectUrl}` },
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback?redirect=${redirectUrl}`,
+      },
     });
   };
 
@@ -72,10 +92,18 @@ function LoginForm() {
     <Card className="bg-surface border-border shadow-2xl backdrop-blur-sm">
       <CardHeader className="space-y-1 text-center pb-8">
         <CardTitle className="text-2xl font-fraunces">Welcome back</CardTitle>
-        <CardDescription>Enter your credentials to access your account</CardDescription>
+        <CardDescription>
+          Enter your credentials to access your account
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          {message === "confirm-email" && (
+            <div className="rounded-lg bg-accent/10 border border-accent/30 px-4 py-3 text-sm text-accent">
+              Account created! Please check your email to confirm your address,
+              then log in.
+            </div>
+          )}
           {serverError && (
             <div className="rounded-lg bg-danger/10 border border-danger/30 px-4 py-3 text-sm text-danger">
               {serverError}
@@ -88,25 +116,41 @@ function LoginForm() {
               type="email"
               placeholder="name@example.com"
               {...register("email")}
-              className={errors.email ? "border-danger focus-visible:ring-danger" : ""}
+              className={
+                errors.email ? "border-danger focus-visible:ring-danger" : ""
+              }
             />
-            {errors.email && <p className="text-xs text-danger">{errors.email.message}</p>}
+            {errors.email && (
+              <p className="text-xs text-danger">{errors.email.message}</p>
+            )}
           </div>
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <Label htmlFor="password">Password</Label>
-              <Link href="#" className="text-xs text-accent hover:underline">Forgot password?</Link>
+              <Link href="#" className="text-xs text-accent hover:underline">
+                Forgot password?
+              </Link>
             </div>
             <Input
               id="password"
               type="password"
               {...register("password")}
-              className={errors.password ? "border-danger focus-visible:ring-danger" : ""}
+              className={
+                errors.password ? "border-danger focus-visible:ring-danger" : ""
+              }
             />
-            {errors.password && <p className="text-xs text-danger">{errors.password.message}</p>}
+            {errors.password && (
+              <p className="text-xs text-danger">{errors.password.message}</p>
+            )}
           </div>
-          <Button type="submit" className="w-full mt-4 h-12 shadow-[0_0_15px_rgba(0,229,153,0.15)]" disabled={isLoading}>
-            {isLoading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
+          <Button
+            type="submit"
+            className="w-full mt-4 h-12 shadow-[0_0_15px_rgba(0,229,153,0.15)]"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <Loader2 className="h-4 w-4 animate-spin mr-2" />
+            ) : null}
             Log In
           </Button>
         </form>
@@ -134,7 +178,10 @@ function LoginForm() {
       <CardFooter className="flex flex-col items-center justify-center pt-2 pb-8">
         <div className="text-sm text-muted">
           Don&apos;t have an account?{" "}
-          <Link href="/signup" className="text-accent hover:underline font-medium">
+          <Link
+            href="/signup"
+            className="text-accent hover:underline font-medium"
+          >
             Sign up
           </Link>
         </div>
@@ -145,13 +192,15 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={
-      <Card className="bg-surface border-border shadow-2xl backdrop-blur-sm animate-pulse">
-        <div className="h-[400px] flex items-center justify-center">
-          <Loader2 className="h-8 w-8 animate-spin text-accent" />
-        </div>
-      </Card>
-    }>
+    <Suspense
+      fallback={
+        <Card className="bg-surface border-border shadow-2xl backdrop-blur-sm animate-pulse">
+          <div className="h-[400px] flex items-center justify-center">
+            <Loader2 className="h-8 w-8 animate-spin text-accent" />
+          </div>
+        </Card>
+      }
+    >
       <LoginForm />
     </Suspense>
   );

@@ -9,6 +9,8 @@ import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { PenLine } from "lucide-react";
 import { formatDate } from "@/lib/utils";
+import { Suspense } from "react";
+import SubscriptionVerifier from "./SubscriptionVerifier";
 
 export default async function DashboardHome() {
   const supabase = await createClient();
@@ -27,7 +29,9 @@ export default async function DashboardHome() {
   // Fetch subscription
   const { data: subscription } = await supabase
     .from("subscriptions")
-    .select("status, plan, current_period_end, charity_id, charity_contribution_pct")
+    .select(
+      "status, plan, current_period_end, charity_id, charity_contribution_pct",
+    )
     .eq("user_id", user.id)
     .single();
 
@@ -48,7 +52,7 @@ export default async function DashboardHome() {
   const avgScore =
     allScores && allScores.length > 0
       ? Math.round(
-          allScores.reduce((acc, s) => acc + s.score, 0) / allScores.length
+          allScores.reduce((acc, s) => acc + s.score, 0) / allScores.length,
         )
       : 0;
 
@@ -111,6 +115,9 @@ export default async function DashboardHome() {
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+      <Suspense fallback={null}>
+        <SubscriptionVerifier />
+      </Suspense>
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h1 className="text-3xl font-fraunces font-bold mb-2">

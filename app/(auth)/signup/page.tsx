@@ -1,6 +1,13 @@
 "use client";
 
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -16,7 +23,9 @@ import { Loader2 } from "lucide-react";
 const signupSchema = z.object({
   name: z.string().min(2, { message: "Name is required" }),
   email: z.string().email({ message: "Please enter a valid email address" }),
-  password: z.string().min(8, { message: "Password must be at least 8 characters" }),
+  password: z
+    .string()
+    .min(8, { message: "Password must be at least 8 characters" }),
 });
 
 type SignupForm = z.infer<typeof signupSchema>;
@@ -26,7 +35,11 @@ export default function SignupPage() {
   const [serverError, setServerError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { register, handleSubmit, formState: { errors } } = useForm<SignupForm>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignupForm>({
     resolver: zodResolver(signupSchema),
   });
 
@@ -46,22 +59,28 @@ export default function SignupPage() {
       setIsLoading(false);
       return;
     }
-    router.push("/subscribe");
+    router.push("/login?message=confirm-email");
   };
 
   const handleGoogleSignup = async () => {
     const supabase = createClient();
     await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: { redirectTo: `${window.location.origin}/auth/callback?redirect=/subscribe` },
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback?redirect=/subscribe`,
+      },
     });
   };
 
   return (
     <Card className="bg-surface border-border shadow-2xl backdrop-blur-sm">
       <CardHeader className="space-y-1 text-center pb-8">
-        <CardTitle className="text-2xl font-fraunces">Create an account</CardTitle>
-        <CardDescription>Join the movement and start playing for good</CardDescription>
+        <CardTitle className="text-2xl font-fraunces">
+          Create an account
+        </CardTitle>
+        <CardDescription>
+          Join the movement and start playing for good
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -76,9 +95,13 @@ export default function SignupPage() {
               id="name"
               placeholder="John Doe"
               {...register("name")}
-              className={errors.name ? "border-danger focus-visible:ring-danger" : ""}
+              className={
+                errors.name ? "border-danger focus-visible:ring-danger" : ""
+              }
             />
-            {errors.name && <p className="text-xs text-danger">{errors.name.message}</p>}
+            {errors.name && (
+              <p className="text-xs text-danger">{errors.name.message}</p>
+            )}
           </div>
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
@@ -87,9 +110,13 @@ export default function SignupPage() {
               type="email"
               placeholder="name@example.com"
               {...register("email")}
-              className={errors.email ? "border-danger focus-visible:ring-danger" : ""}
+              className={
+                errors.email ? "border-danger focus-visible:ring-danger" : ""
+              }
             />
-            {errors.email && <p className="text-xs text-danger">{errors.email.message}</p>}
+            {errors.email && (
+              <p className="text-xs text-danger">{errors.email.message}</p>
+            )}
           </div>
           <div className="space-y-2">
             <Label htmlFor="password">Password</Label>
@@ -97,12 +124,22 @@ export default function SignupPage() {
               id="password"
               type="password"
               {...register("password")}
-              className={errors.password ? "border-danger focus-visible:ring-danger" : ""}
+              className={
+                errors.password ? "border-danger focus-visible:ring-danger" : ""
+              }
             />
-            {errors.password && <p className="text-xs text-danger">{errors.password.message}</p>}
+            {errors.password && (
+              <p className="text-xs text-danger">{errors.password.message}</p>
+            )}
           </div>
-          <Button type="submit" className="w-full mt-4 h-12 shadow-[0_0_15px_rgba(0,229,153,0.15)]" disabled={isLoading}>
-            {isLoading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
+          <Button
+            type="submit"
+            className="w-full mt-4 h-12 shadow-[0_0_15px_rgba(0,229,153,0.15)]"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <Loader2 className="h-4 w-4 animate-spin mr-2" />
+            ) : null}
             Sign Up
           </Button>
         </form>
@@ -130,7 +167,10 @@ export default function SignupPage() {
       <CardFooter className="flex flex-col items-center justify-center pt-2 pb-8">
         <div className="text-sm text-muted">
           Already have an account?{" "}
-          <Link href="/login" className="text-accent hover:underline font-medium">
+          <Link
+            href="/login"
+            className="text-accent hover:underline font-medium"
+          >
             Log in
           </Link>
         </div>
