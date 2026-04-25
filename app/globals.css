@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #0B0D11;
+  --color-surface: #141720;
+  --color-border: #1E2230;
+  --color-accent: #00E599;
+  --color-accent-warm: #F5A623;
+  --color-muted: #6B7280;
+  --color-text: #F0F2F5;
+  --color-danger: #EF4444;
+  --color-success: #22C55E;
+
+  --font-sans: var(--font-dm-sans);
+  --font-serif: var(--font-fraunces);
+  --font-mono: var(--font-jetbrains-mono);
+
+  --text-hero: clamp(3rem, 6vw, 5.5rem);
+  --text-h1: clamp(2rem, 4vw, 3.5rem);
+  --text-h2: clamp(1.5rem, 2.5vw, 2.25rem);
+  --text-h3: 1.25rem;
+  --text-body: 1rem;
+  --text-sm: 0.875rem;
+
+  --radius: 0.5rem;
+}
+
+@layer base {
+  :root {
+    --background: var(--color-bg);
+    --foreground: var(--color-text);
+    --card: var(--color-surface);
+    --card-foreground: var(--color-text);
+    --popover: var(--color-surface);
+    --popover-foreground: var(--color-text);
+    --primary: var(--color-accent);
+    --primary-foreground: #0B0D11;
+    --secondary: var(--color-surface);
+    --secondary-foreground: var(--color-text);
+    --muted: var(--color-surface);
+    --muted-foreground: var(--color-muted);
+    --accent: var(--color-accent-warm);
+    --accent-foreground: #0B0D11;
+    --destructive: var(--color-danger);
+    --destructive-foreground: var(--color-text);
+    --border: var(--color-border);
+    --input: var(--color-border);
+    --ring: var(--color-accent);
+    --radius: 0.75rem;
+  }
+  
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-border, currentColor);
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    antialiased: true;
+  }
+}
