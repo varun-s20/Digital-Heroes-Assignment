@@ -186,7 +186,7 @@ export default function SubscribeClient({ charities }: Props) {
                   disabled={isPending || !selectedCharity}
                 >
                   {isPending ? <Loader2 className="h-5 w-5 animate-spin mr-2" /> : null}
-                  Complete Subscription (Bypass Payment)
+                  Complete Subscription
                 </Button>
                 <p className="text-xs text-center text-muted mt-4">
                   Powered by Stripe — secure payment processing.

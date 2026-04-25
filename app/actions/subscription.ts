@@ -20,7 +20,6 @@ export async function createCheckoutSession(
     ? process.env.STRIPE_YEARLY_PRICE_ID!
     : process.env.STRIPE_MONTHLY_PRICE_ID!
 
-  /*
   // Get or create Stripe customer
   const { data: sub } = await supabase
     .from('subscriptions')
@@ -60,23 +59,6 @@ export async function createCheckoutSession(
 
   if (!session.url) return { success: false, error: 'Failed to create checkout session.' }
   return { success: true, data: { url: session.url } }
-  */
-
-  // MOCK SUBSCRIPTION CREATION
-  const { error: subError } = await supabase.from('subscriptions').upsert({
-    user_id: user.id,
-    stripe_customer_id: 'mock_customer_id',
-    stripe_sub_id: 'mock_sub_id',
-    plan,
-    status: 'active',
-    current_period_start: new Date().toISOString(),
-    current_period_end: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
-    charity_id: charityId,
-    charity_contribution_pct: charityContributionPct,
-  })
-
-  if (subError) return { success: false, error: subError.message }
-  return { success: true, data: { url: '/dashboard?subscribed=true' } }
 }
 
 export async function createPortalSession(): Promise<ActionResult<{ url: string }>> {
@@ -84,7 +66,6 @@ export async function createPortalSession(): Promise<ActionResult<{ url: string 
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return { success: false, error: 'Not authenticated.' }
 
-  /*
   const { data: sub } = await supabase
     .from('subscriptions')
     .select('stripe_customer_id')
@@ -101,8 +82,6 @@ export async function createPortalSession(): Promise<ActionResult<{ url: string 
   })
 
   return { success: true, data: { url: portalSession.url } }
-  */
-  return { success: true, data: { url: '/dashboard/settings' } }
 }
 
 export async function updateSubscriptionCharity(
