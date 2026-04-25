@@ -89,7 +89,7 @@ export async function deleteCharity(id: string): Promise<ActionResult> {
   const adminSupabase = await createAdminClient()
   const { error: dbError } = await adminSupabase
     .from('charities')
-    .delete()
+    .update({ is_active: false })
     .eq('id', id)
 
   if (dbError) return { success: false, error: dbError.message }

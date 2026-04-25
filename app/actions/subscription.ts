@@ -20,6 +20,44 @@ export async function createCheckoutSession(
     ? process.env.STRIPE_YEARLY_PRICE_ID!
     : process.env.STRIPE_MONTHLY_PRICE_ID!
 
+  const bypassStripe = true; // Set to true to bypass Stripe for local testing
+
+  if (bypassStripe) {
+    const { data: existingSub } = await supabase
+      .from('subscriptions')
+      .select('id')
+      .eq('user_id', user.id)
+      .single();
+
+    const now = new Date();
+    const endDate = new Date();
+    if (plan === 'yearly') endDate.setFullYear(now.getFullYear() + 1);
+    else endDate.setMonth(now.getMonth() + 1);
+
+    if (existingSub) {
+      await supabase.from('subscriptions').update({
+        plan,
+        status: 'active',
+        charity_id: charityId,
+        charity_contribution_pct: charityContributionPct,
+        current_period_start: now.toISOString(),
+        current_period_end: endDate.toISOString(),
+      }).eq('id', existingSub.id);
+    } else {
+      await supabase.from('subscriptions').insert({
+        user_id: user.id,
+        plan,
+        status: 'active',
+        charity_id: charityId,
+        charity_contribution_pct: charityContributionPct,
+        current_period_start: now.toISOString(),
+        current_period_end: endDate.toISOString(),
+      });
+    }
+
+    return { success: true, data: { url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard?subscribed=true` } };
+  }
+
   // Get or create Stripe customer
   const { data: sub } = await supabase
     .from('subscriptions')
