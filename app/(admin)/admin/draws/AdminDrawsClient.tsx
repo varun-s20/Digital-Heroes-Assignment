@@ -44,7 +44,7 @@ export default function AdminDrawsClient({ draws, activeSubscriberCount }: Props
   const [selectedDrawId, setSelectedDrawId] = useState<string>(
     draws.find(d => d.status === 'pending' || d.status === 'simulated')?.id ?? ''
   );
-  const [newMonth, setNewMonth] = useState('');
+  const [newDate, setNewDate] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [simResults, setSimResults] = useState<any>(
     draws.find(d => d.id === selectedDrawId)?.simulation_results ?? null
@@ -53,13 +53,13 @@ export default function AdminDrawsClient({ draws, activeSubscriberCount }: Props
   const selectedDraw = draws.find(d => d.id === selectedDrawId);
 
   const handleCreateDraw = () => {
-    if (!newMonth) { setError('Please select a month.'); return; }
+    if (!newDate) { setError('Please select a date.'); return; }
     setError(null);
     startTransition(async () => {
       const res = await fetch('/api/admin/draws/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ drawMonth: `${newMonth}-01` }),
+        body: JSON.stringify({ drawMonth: newDate }),
       });
       const data = await res.json();
       if (!res.ok) { setError(data.error); return; }
@@ -124,17 +124,17 @@ export default function AdminDrawsClient({ draws, activeSubscriberCount }: Props
       <Card className="bg-[#050608] border-border">
         <CardHeader>
           <CardTitle>Create New Draw</CardTitle>
-          <CardDescription>Schedule a pending draw for a future month.</CardDescription>
+          <CardDescription>Schedule a pending draw for a future date.</CardDescription>
         </CardHeader>
         <CardContent className="flex gap-4 items-end">
           <div className="space-y-2">
-            <Label htmlFor="newMonth">Draw Month</Label>
+            <Label htmlFor="newDate">Draw Date</Label>
             <Input
-              id="newMonth"
-              type="month"
-              value={newMonth}
-              onChange={e => setNewMonth(e.target.value)}
-              className="w-48"
+              id="newDate"
+              type="date"
+              value={newDate}
+              onChange={e => setNewDate(e.target.value)}
+              className="w-48 [color-scheme:dark]"
             />
           </div>
           <Button onClick={handleCreateDraw} disabled={isPending}>
@@ -166,7 +166,7 @@ export default function AdminDrawsClient({ draws, activeSubscriberCount }: Props
                 <option value="">— Select —</option>
                 {pendingDraws.map(d => (
                   <option key={d.id} value={d.id}>
-                    {formatMonth(d.draw_month)} ({d.status})
+                    {new Date(d.draw_month).toLocaleDateString('en-GB', { month: 'long', year: 'numeric', day: 'numeric' })} ({d.status})
                   </option>
                 ))}
               </select>
@@ -185,6 +185,7 @@ export default function AdminDrawsClient({ draws, activeSubscriberCount }: Props
                 </Button>
                 <Button
                   variant={mode === 'random' ? 'default' : 'outline'}
+                  className={mode === 'random' ? 'bg-accent text-bg hover:bg-accent/90' : ''}
                   onClick={() => setMode('random')}
                   type="button"
                 >

@@ -1,25 +1,25 @@
 import Link from "next/link";
-import { Leaf } from "lucide-react";
+import { LandPlot } from "lucide-react";
 
 export default function AuthLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
-    <div className="min-h-screen bg-bg flex flex-col justify-center items-center p-4 relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute top-1/4 -right-64 h-[500px] w-[500px] rounded-full bg-accent blur-[150px] opacity-20 pointer-events-none" />
-      <div className="absolute bottom-1/4 -left-64 h-[500px] w-[500px] rounded-full bg-accent-warm blur-[150px] opacity-10 pointer-events-none" />
-      
-      <Link href="/" className="flex items-center gap-2 mb-8 relative z-10 hover:opacity-80 transition-opacity">
-        <Leaf className="h-8 w-8 text-accent" />
-        <span className="font-fraunces text-2xl font-bold italic tracking-tight text-text">Fairway Impact</span>
-      </Link>
+    <div className="min-h-screen bg-bg flex flex-col justify-center items-center p-4">
+      <div className="absolute top-0 left-0 w-full h-[50vh] bg-gradient-to-b from-accent/5 to-transparent pointer-events-none" />
       
       <div className="w-full max-w-md relative z-10">
+        <div className="text-center mb-8">
+          <Link href="/" className="inline-flex items-center gap-2 hover:opacity-80 transition-opacity">
+            <LandPlot className="h-8 w-8 text-accent" />
+            <span className="font-fraunces text-2xl font-bold italic tracking-tight text-text">BirdieFund</span>
+          </Link>
+        </div>
+        
         {children}
       </div>
     </div>
-  );
+  )
 }

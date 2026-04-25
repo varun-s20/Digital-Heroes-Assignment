@@ -1,8 +1,8 @@
 import { Resend } from 'resend'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
-const FROM = 'Digital Heroes <noreply@digitalheroesplatform.com>'
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@digitalheroesplatform.com'
+const FROM = 'BirdieFund <varun.jcfanx@gmail.com>'
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'varun.jcfanx@gmail.com'
 
 type SendResult = { success: boolean; error?: string }
 
@@ -35,9 +35,9 @@ function emailWrapper(content: string) {
   h1{color:${text};font-size:28px;margin:0 0 8px}p{color:#9ca3af;line-height:1.6;margin:8px 0}
   .number-badge{display:inline-block;width:40px;height:40px;line-height:40px;text-align:center;border-radius:50%;background:${accent};color:#000;font-weight:700;font-size:16px;margin:4px}
   </style></head><body><div class="container">
-  <div class="header"><div class="logo">⛳ Digital Heroes</div></div>
+  <div class="header"><div class="logo">⛳ BirdieFund</div></div>
   ${content}
-  <div class="footer"><p>Digital Heroes Platform &mdash; Playing for good.</p><p><a href="{{unsubscribe_url}}" style="color:${muted}">Unsubscribe</a></p></div>
+  <div class="footer"><p>BirdieFund &mdash; Playing for good.</p><p><a href="{{unsubscribe_url}}" style="color:${muted}">Unsubscribe</a></p></div>
   </div></body></html>`
 }
 

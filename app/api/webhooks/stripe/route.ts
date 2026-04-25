@@ -43,8 +43,8 @@ export async function POST(req: NextRequest) {
           stripe_sub_id: subscriptionId,
           plan: plan,
           status: subscription.status,
-          current_period_start: new Date(subscription.current_period_start * 1000).toISOString(),
-          current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
+          current_period_start: new Date(subscription.items.data[0].current_period_start * 1000).toISOString(),
+          current_period_end: new Date(subscription.items.data[0].current_period_end * 1000).toISOString(),
           charity_id: metadata.charity_id,
           charity_contribution_pct: parseInt(metadata.charity_contribution_pct || '10', 10),
         }).eq('id', existingSub.id)
@@ -56,8 +56,8 @@ export async function POST(req: NextRequest) {
           stripe_sub_id: subscriptionId,
           plan: plan,
           status: subscription.status,
-          current_period_start: new Date(subscription.current_period_start * 1000).toISOString(),
-          current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
+          current_period_start: new Date(subscription.items.data[0].current_period_start * 1000).toISOString(),
+          current_period_end: new Date(subscription.items.data[0].current_period_end * 1000).toISOString(),
           charity_id: metadata.charity_id,
           charity_contribution_pct: parseInt(metadata.charity_contribution_pct || '10', 10),
         })
@@ -76,8 +76,8 @@ export async function POST(req: NextRequest) {
     const { error } = await supabase.from('subscriptions')
       .update({
         status: subscription.status,
-        current_period_start: new Date(subscription.current_period_start * 1000).toISOString(),
-        current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
+        current_period_start: new Date(subscription.items.data[0].current_period_start * 1000).toISOString(),
+        current_period_end: new Date(subscription.items.data[0].current_period_end * 1000).toISOString(),
         cancel_at_period_end: subscription.cancel_at_period_end,
       })
       .eq('stripe_sub_id', subscription.id)

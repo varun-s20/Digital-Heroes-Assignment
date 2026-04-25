@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { Home, PenLine, Heart, Trophy, CreditCard, Settings, LogOut, Leaf } from "lucide-react";
+import { Home, PenLine, Heart, Trophy, CreditCard, Settings, LogOut, LandPlot } from "lucide-react";
+import { logoutAction } from "@/app/actions/auth";
 
 const navItems = [
   { name: "Home", href: "/dashboard", icon: Home },
@@ -21,8 +22,8 @@ export function DashboardSidebar() {
     <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-border bg-surface md:flex">
       <div className="flex h-16 shrink-0 items-center border-b border-border px-6">
         <Link href="/" className="flex items-center gap-2">
-          <Leaf className="h-6 w-6 text-accent" />
-          <span className="font-fraunces text-xl font-bold italic tracking-tight">Impact Dashboard</span>
+          <LandPlot className="h-6 w-6 text-accent" />
+          <span className="font-fraunces text-xl font-bold italic tracking-tight">BirdieFund Dashboard</span>
         </Link>
       </div>
       <nav className="flex-1 space-y-1 px-3 py-4">
@@ -47,10 +48,12 @@ export function DashboardSidebar() {
         })}
       </nav>
       <div className="border-t border-border p-4">
-        <button className="flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-danger hover:bg-danger/10 transition-colors">
-          <LogOut className="h-4 w-4" />
-          Log Out
-        </button>
+        <form action={logoutAction}>
+          <button type="submit" className="flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-danger hover:bg-danger/10 transition-colors">
+            <LogOut className="h-4 w-4" />
+            Log Out
+          </button>
+        </form>
       </div>
     </aside>
   );

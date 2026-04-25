@@ -36,9 +36,12 @@ export function CharityCard({ charity }: { charity: CharityCardProps }) {
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-muted text-sm">
-            No image
-          </div>
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src="https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?q=80&w=800&auto=format&fit=crop"
+            alt="Default charity cover"
+            className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-500 grayscale group-hover:grayscale-0"
+          />
         )}
         <div className="absolute top-4 left-4 z-20">
           <Badge variant="secondary" className="bg-bg/80 backdrop-blur-md border-border">

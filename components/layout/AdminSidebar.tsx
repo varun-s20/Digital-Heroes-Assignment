@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { LayoutDashboard, Users, Trophy, HeartHandshake, Award, FileText, LogOut, ShieldAlert } from "lucide-react";
+import { logoutAction } from "@/app/actions/auth";
 
 const navItems = [
   { name: "Overview", href: "/admin", icon: LayoutDashboard },
@@ -47,10 +48,12 @@ export function AdminSidebar() {
         })}
       </nav>
       <div className="border-t border-border p-4">
-        <button className="flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-danger hover:bg-danger/10 transition-colors">
-          <LogOut className="h-4 w-4" />
-          Exit Admin
-        </button>
+        <form action={logoutAction}>
+          <button type="submit" className="flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-danger hover:bg-danger/10 transition-colors">
+            <LogOut className="h-4 w-4" />
+            Exit Admin
+          </button>
+        </form>
       </div>
     </aside>
   );

@@ -3,16 +3,44 @@
 import { motion } from "framer-motion";
 import { fadeUp, staggerContainer } from "@/lib/motion";
 import { useEffect, useState } from "react";
+import { createClient } from "@/lib/supabase/client";
 import { mockDraws } from "@/lib/mock-data";
 
 export function DrawMechanicsSection() {
-  const upcomingDraw = mockDraws.find(d => d.status === 'upcoming')!;
-  
-  // Simple countdown logic
+  const [upcomingDrawDate, setUpcomingDrawDate] = useState<string | null>(null);
+  const [estimatedPrizePool, setEstimatedPrizePool] = useState<number>(0);
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, mins: 0, secs: 0 });
 
+  const mockTiers = mockDraws.find(d => d.status === 'upcoming')?.tiers || [];
+
   useEffect(() => {
-    const targetDate = new Date(upcomingDraw.date).getTime();
+    const fetchDraw = async () => {
+      const supabase = createClient();
+      const { data } = await supabase
+        .from('draws')
+        .select('*')
+        .eq('status', 'pending')
+        .order('draw_month', { ascending: true })
+        .limit(1)
+        .single();
+      
+      if (data) {
+        setUpcomingDrawDate(data.draw_month);
+        setEstimatedPrizePool(data.prize_pool_total || 5000);
+      } else {
+        // Fallback to end of current month if no draw is scheduled
+        const now = new Date();
+        const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+        setUpcomingDrawDate(endOfMonth.toISOString());
+        setEstimatedPrizePool(5000);
+      }
+    };
+    fetchDraw();
+  }, []);
+
+  useEffect(() => {
+    if (!upcomingDrawDate) return;
+    const targetDate = new Date(upcomingDrawDate).getTime();
     
     const interval = setInterval(() => {
       const now = new Date().getTime();
@@ -32,7 +60,7 @@ export function DrawMechanicsSection() {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [upcomingDraw.date]);
+  }, [upcomingDrawDate]);
 
   return (
     <section className="py-24 bg-bg border-y border-border">
@@ -53,7 +81,7 @@ export function DrawMechanicsSection() {
             </motion.p>
             
             <motion.div variants={fadeUp} className="space-y-4">
-              {upcomingDraw.tiers?.map((tier, idx) => (
+              {mockTiers.map((tier, idx) => (
                 <div key={idx} className="bg-surface border border-border rounded-xl p-4 flex items-center justify-between">
                   <div className="flex items-center gap-4">
                     <div className="h-10 w-10 rounded-full bg-accent/10 flex items-center justify-center font-bold text-accent">
@@ -81,7 +109,7 @@ export function DrawMechanicsSection() {
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-accent to-accent-warm" />
               <h3 className="text-xl font-medium mb-2 text-muted">Next Draw</h3>
               <p className="text-3xl font-fraunces font-bold mb-10">
-                {new Date(upcomingDraw.date).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })}
+                {upcomingDrawDate ? new Date(upcomingDrawDate).toLocaleDateString('en-GB', { month: 'long', year: 'numeric', day: 'numeric' }) : 'Loading...'}
               </p>
               
               <div className="flex justify-center gap-4 md:gap-6">
@@ -99,7 +127,7 @@ export function DrawMechanicsSection() {
               
               <div className="mt-10 pt-8 border-t border-border">
                 <p className="text-sm text-muted">
-                  Estimated Total Prize Pool: <span className="text-text font-mono font-bold">£{upcomingDraw.estimatedPrizePool?.toLocaleString()}</span>
+                  Estimated Total Prize Pool: <span className="text-text font-mono font-bold">£{estimatedPrizePool.toLocaleString()}</span>
                 </p>
               </div>
             </div>

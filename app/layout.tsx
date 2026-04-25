@@ -25,6 +25,7 @@ export const metadata: Metadata = {
 };
 
 import { AuthProvider } from "@/context/AuthContext";
+import NextTopLoader from 'nextjs-toploader';
 
 export default function RootLayout({
   children,
@@ -34,6 +35,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${dmSans.variable} ${fraunces.variable} ${jetbrainsMono.variable}`}>
       <body className="min-h-screen bg-bg text-text selection:bg-accent selection:text-black">
+        <NextTopLoader color="#00E599" showSpinner={false} />
         <AuthProvider>
           {children}
         </AuthProvider>
