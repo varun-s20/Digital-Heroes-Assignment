@@ -150,11 +150,11 @@ export default function SettingsClient({ userId, profile, subscription }: Props)
                       </Badge>
                     </div>
                     <div className="text-sm text-muted">
-                      Next billing: {new Date(subscription.current_period_end).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+                      Next billing: {new Date(subscription.current_period_end).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="font-mono font-bold text-xl">{subscription.plan === 'monthly' ? '£9.99/mo' : '£99.90/yr'}</div>
+                    <div className="font-mono font-bold text-xl">{subscription.plan === 'monthly' ? '₹9.99/mo' : '₹99.90/yr'}</div>
                   </div>
                 </div>
 

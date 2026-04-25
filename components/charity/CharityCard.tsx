@@ -61,7 +61,7 @@ export function CharityCard({ charity }: { charity: CharityCardProps }) {
           <div>
             <div className="text-xs text-muted uppercase tracking-wider mb-1">Raised</div>
             <div className="font-mono font-bold text-accent">
-              £{Number(totalRaised).toLocaleString()}
+              ₹{Number(totalRaised).toLocaleString()}
             </div>
           </div>
           <div className="text-right">

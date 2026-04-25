@@ -136,7 +136,7 @@ export const mockDraws: Draw[] = [
     date: "2024-04-01T20:00:00Z",
     status: "upcoming",
     activeSubscriberCount: 500,
-    estimatedPrizePool: 4995, // 500 * £9.99
+    estimatedPrizePool: 4995, // 500 * ₹9.99
     tiers: [
       { matchCount: 5, winners: 0, prizePerWinner: 1998 }, // 40%
       { matchCount: 4, winners: 0, prizePerWinner: 1748 }, // 35%

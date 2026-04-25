@@ -98,7 +98,7 @@ export default function SubscribeClient({ charities }: Props) {
                 </CardHeader>
                 <CardContent>
                   <div className="mb-4">
-                    <span className="text-4xl font-mono font-bold text-text">£{isYearly ? "99.90" : "9.99"}</span>
+                    <span className="text-4xl font-mono font-bold text-text">₹{isYearly ? "99.90" : "9.99"}</span>
                     <span className="text-muted">/{isYearly ? "year" : "month"}</span>
                   </div>
                 </CardContent>
@@ -161,15 +161,15 @@ export default function SubscribeClient({ charities }: Props) {
                 <h3 className="font-semibold text-text mb-2">Order Summary</h3>
                 <div className="flex justify-between text-sm">
                   <span className="text-muted">Subscription ({isYearly ? "Yearly" : "Monthly"})</span>
-                  <span className="font-mono font-medium">£{price.toFixed(2)}</span>
+                  <span className="font-mono font-medium">₹{price.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-muted">Charity Allocation ({contribution[0]}%)</span>
-                  <span className="font-mono font-medium text-accent-warm">£{charityAmount}</span>
+                  <span className="font-mono font-medium text-accent-warm">₹{charityAmount}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-muted">Prize Pool & Platform</span>
-                  <span className="font-mono font-medium">£{poolAmount}</span>
+                  <span className="font-mono font-medium">₹{poolAmount}</span>
                 </div>
               </div>
 

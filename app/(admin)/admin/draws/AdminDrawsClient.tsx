@@ -34,7 +34,7 @@ interface Props {
 type DrawMode = 'algorithmic' | 'random';
 
 function formatMonth(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+  return new Date(dateStr).toLocaleDateString('en-IN', { month: 'long', year: 'numeric' });
 }
 
 export default function AdminDrawsClient({ draws, activeSubscriberCount }: Props) {
@@ -166,7 +166,7 @@ export default function AdminDrawsClient({ draws, activeSubscriberCount }: Props
                 <option value="">— Select —</option>
                 {pendingDraws.map(d => (
                   <option key={d.id} value={d.id}>
-                    {new Date(d.draw_month).toLocaleDateString('en-GB', { month: 'long', year: 'numeric', day: 'numeric' })} ({d.status})
+                    {new Date(d.draw_month).toLocaleDateString('en-IN', { month: 'long', year: 'numeric', day: 'numeric' })} ({d.status})
                   </option>
                 ))}
               </select>
@@ -240,23 +240,23 @@ export default function AdminDrawsClient({ draws, activeSubscriberCount }: Props
               <div className="space-y-3">
                 <div className="flex justify-between text-sm">
                   <span>Match 5 Winners: <strong className="text-text">{simResults.tier5Winners?.length ?? 0}</strong>{simResults.jackpotRollover ? ' (Rollover)' : ''}</span>
-                  <span className="text-muted">£{simResults.tier5PerWinner ?? 0} each</span>
+                  <span className="text-muted">₹{simResults.tier5PerWinner ?? 0} each</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span>Match 4 Winners: <strong className="text-text">{simResults.tier4Winners?.length ?? 0}</strong></span>
-                  <span className="text-muted">£{simResults.tier4PerWinner ?? 0} each</span>
+                  <span className="text-muted">₹{simResults.tier4PerWinner ?? 0} each</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span>Match 3 Winners: <strong className="text-text">{simResults.tier3Winners?.length ?? 0}</strong></span>
-                  <span className="text-muted">£{simResults.tier3PerWinner ?? 0} each</span>
+                  <span className="text-muted">₹{simResults.tier3PerWinner ?? 0} each</span>
                 </div>
                 <div className="flex justify-between text-sm font-medium pt-2 border-t border-border">
                   <span>Total Prize Pool</span>
-                  <span className="text-accent">£{simResults.prizePoolTotal?.toLocaleString() ?? 0}</span>
+                  <span className="text-accent">₹{simResults.prizePoolTotal?.toLocaleString() ?? 0}</span>
                 </div>
                 {simResults.jackpotRollover && (
                   <div className="text-accent-warm text-xs text-center">
-                    ⚠️ No Tier 5 winner — £{simResults.jackpotRolloverAmount?.toFixed(2)} rolled over to next draw
+                    ⚠️ No Tier 5 winner — ₹{simResults.jackpotRolloverAmount?.toFixed(2)} rolled over to next draw
                   </div>
                 )}
               </div>
@@ -302,10 +302,10 @@ export default function AdminDrawsClient({ draws, activeSubscriberCount }: Props
                     </td>
                     <td className="py-3 capitalize">{d.draw_mode ?? '—'}</td>
                     <td className="py-3">{d.active_subscriber_count ?? '—'}</td>
-                    <td className="py-3 font-mono font-medium text-accent">£{d.prize_pool_total?.toLocaleString() ?? '—'}</td>
+                    <td className="py-3 font-mono font-medium text-accent">₹{d.prize_pool_total?.toLocaleString() ?? '—'}</td>
                     <td className="py-3">
                       {d.jackpot_carried_over
-                        ? <Badge className="bg-accent-warm text-black">Rollover £{d.jackpot_carry_amount?.toFixed(2)}</Badge>
+                        ? <Badge className="bg-accent-warm text-black">Rollover ₹{d.jackpot_carry_amount?.toFixed(2)}</Badge>
                         : <Badge variant="default"><CheckCircle className="h-3 w-3 mr-1" />Won</Badge>
                       }
                     </td>

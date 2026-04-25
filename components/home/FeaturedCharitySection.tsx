@@ -36,7 +36,7 @@ export function FeaturedCharitySection() {
             </p>
             <div className="flex items-center gap-6 mb-8 border-t border-border pt-6">
               <div>
-                <div className="text-2xl font-bold font-mono text-text">£{charity.totalRaised.toLocaleString()}</div>
+                <div className="text-2xl font-bold font-mono text-text">₹{charity.totalRaised.toLocaleString()}</div>
                 <div className="text-xs text-muted uppercase tracking-wider">Raised so far</div>
               </div>
               <div className="w-px h-10 bg-border" />

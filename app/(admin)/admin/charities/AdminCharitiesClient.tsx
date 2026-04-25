@@ -148,7 +148,7 @@ export default function AdminCharitiesClient({ charities }: Props) {
       header: "Total Raised",
       cell: (c: Charity) => (
         <span className="font-mono text-accent-warm">
-          £{Number(c.total_raised).toLocaleString()}
+          ₹{Number(c.total_raised).toLocaleString()}
         </span>
       ),
     },

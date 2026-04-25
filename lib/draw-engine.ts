@@ -96,7 +96,7 @@ export function calculateMatch(userScores: number[], drawnNumbers: number[]): {
 
 export function calculatePrizePool(
   activeSubscriberCount: number,
-  planMonthlyAmount: number, // in GBP (e.g. 9.99)
+  planMonthlyAmount: number, // in INR (e.g. 9.99)
   poolRatio: number, // e.g. 0.70
   jackpotCarryAmount: number = 0
 ): {

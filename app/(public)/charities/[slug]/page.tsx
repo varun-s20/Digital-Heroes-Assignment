@@ -69,7 +69,7 @@ export default async function CharityProfilePage({ params }: { params: { slug: s
                   </div>
                   <div>
                     <div className="text-sm text-muted uppercase tracking-wider mb-1">Total Raised</div>
-                    <div className="text-2xl font-mono font-bold text-text">£{(charity.total_raised || 0).toLocaleString()}</div>
+                    <div className="text-2xl font-mono font-bold text-text">₹{(charity.total_raised || 0).toLocaleString()}</div>
                   </div>
                 </div>
                 

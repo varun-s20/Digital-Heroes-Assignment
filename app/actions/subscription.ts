@@ -20,44 +20,6 @@ export async function createCheckoutSession(
     ? process.env.STRIPE_YEARLY_PRICE_ID!
     : process.env.STRIPE_MONTHLY_PRICE_ID!
 
-  const bypassStripe = true; // Set to true to bypass Stripe for local testing
-
-  if (bypassStripe) {
-    const { data: existingSub } = await supabase
-      .from('subscriptions')
-      .select('id')
-      .eq('user_id', user.id)
-      .single();
-
-    const now = new Date();
-    const endDate = new Date();
-    if (plan === 'yearly') endDate.setFullYear(now.getFullYear() + 1);
-    else endDate.setMonth(now.getMonth() + 1);
-
-    if (existingSub) {
-      await supabase.from('subscriptions').update({
-        plan,
-        status: 'active',
-        charity_id: charityId,
-        charity_contribution_pct: charityContributionPct,
-        current_period_start: now.toISOString(),
-        current_period_end: endDate.toISOString(),
-      }).eq('id', existingSub.id);
-    } else {
-      await supabase.from('subscriptions').insert({
-        user_id: user.id,
-        plan,
-        status: 'active',
-        charity_id: charityId,
-        charity_contribution_pct: charityContributionPct,
-        current_period_start: now.toISOString(),
-        current_period_end: endDate.toISOString(),
-      });
-    }
-
-    return { success: true, data: { url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard?subscribed=true` } };
-  }
-
   // Get or create Stripe customer
   const { data: sub } = await supabase
     .from('subscriptions')
@@ -79,7 +41,7 @@ export async function createCheckoutSession(
     customer: customerId,
     mode: 'subscription',
     line_items: [{ price: priceId, quantity: 1 }],
-    success_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard?subscribed=true`,
+    success_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard?subscribed=true&session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/subscribe`,
     metadata: {
       user_id: user.id,
@@ -120,6 +82,48 @@ export async function createPortalSession(): Promise<ActionResult<{ url: string 
   })
 
   return { success: true, data: { url: portalSession.url } }
+}
+
+export async function verifySession(sessionId: string): Promise<ActionResult> {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { success: false, error: 'Not authenticated.' }
+
+  try {
+    const session = await stripe.checkout.sessions.retrieve(sessionId)
+    if (session.payment_status !== 'paid') {
+      return { success: false, error: 'Payment not successful.' }
+    }
+
+    if (session.subscription) {
+      const subscription = await stripe.subscriptions.retrieve(session.subscription as string)
+      const plan = subscription.items.data[0].price.id === process.env.STRIPE_YEARLY_PRICE_ID ? 'yearly' : 'monthly'
+      
+      const { data: existingSub } = await supabase.from('subscriptions').select('id').eq('user_id', user.id).single()
+      
+      const updateData = {
+        stripe_customer_id: session.customer as string,
+        stripe_sub_id: session.subscription as string,
+        plan,
+        status: subscription.status,
+        current_period_start: new Date(subscription.items.data[0].current_period_start * 1000).toISOString(),
+        current_period_end: new Date(subscription.items.data[0].current_period_end * 1000).toISOString(),
+        charity_id: session.metadata?.charity_id || null,
+        charity_contribution_pct: parseInt(session.metadata?.charity_contribution_pct || '10', 10),
+      }
+
+      if (existingSub) {
+        await supabase.from('subscriptions').update(updateData).eq('id', existingSub.id)
+      } else {
+        await supabase.from('subscriptions').insert({ user_id: user.id, ...updateData })
+      }
+      
+      return { success: true }
+    }
+    return { success: false, error: 'No subscription found.' }
+  } catch (error: any) {
+    return { success: false, error: error.message }
+  }
 }
 
 export async function updateSubscriptionCharity(

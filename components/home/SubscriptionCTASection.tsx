@@ -42,7 +42,7 @@ export function SubscriptionCTASection() {
               </CardHeader>
               <CardContent className="flex-1">
                 <div className="mb-6">
-                  <span className="text-4xl font-mono font-bold">£9.99</span>
+                  <span className="text-4xl font-mono font-bold">₹9.99</span>
                   <span className="text-muted">/month</span>
                 </div>
                 <ul className="space-y-3">
@@ -73,7 +73,7 @@ export function SubscriptionCTASection() {
               </CardHeader>
               <CardContent className="flex-1">
                 <div className="mb-6">
-                  <span className="text-4xl font-mono font-bold">£99.90</span>
+                  <span className="text-4xl font-mono font-bold">₹99.90</span>
                   <span className="text-muted">/year</span>
                 </div>
                 <ul className="space-y-3">

@@ -107,7 +107,7 @@ export default async function AdminReportsPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard
           title="Total Subscription Revenue"
-          value={`£${totalRevenue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
+          value={`₹${totalRevenue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
           icon={CreditCard}
           trend={`${(monthlyCount ?? 0) + (yearlyCount ?? 0)} active subs`}
           trendUp
@@ -116,12 +116,12 @@ export default async function AdminReportsPage() {
           title="Monthly Subscribers"
           value={(monthlyCount ?? 0).toLocaleString()}
           icon={TrendingUp}
-          trend={`£${monthlyRevenue.toLocaleString(undefined, { minimumFractionDigits: 2 })} MRR`}
+          trend={`₹${monthlyRevenue.toLocaleString(undefined, { minimumFractionDigits: 2 })} MRR`}
           trendUp
         />
         <StatCard
           title="Total Charity Raised"
-          value={`£${totalCharityRaised.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
+          value={`₹${totalCharityRaised.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
           icon={Heart}
           trend={
             totalRevenue > 0
@@ -131,7 +131,7 @@ export default async function AdminReportsPage() {
         />
         <StatCard
           title="Prize Pools Paid Out"
-          value={`£${totalPrizesPaid.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
+          value={`₹${totalPrizesPaid.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
           icon={Trophy}
           trend={`${draws?.length ?? 0} published draws`}
         />
@@ -149,7 +149,7 @@ export default async function AdminReportsPage() {
               <div className="flex justify-between text-sm mb-2">
                 <span>Monthly Plans — {monthlyCount ?? 0} subscribers</span>
                 <span className="font-mono font-bold text-accent">
-                  £{monthlyRevenue.toLocaleString(undefined, { minimumFractionDigits: 2 })} / mo
+                  ₹{monthlyRevenue.toLocaleString(undefined, { minimumFractionDigits: 2 })} / mo
                 </span>
               </div>
               <div className="h-2 w-full bg-surface rounded-full overflow-hidden">
@@ -169,7 +169,7 @@ export default async function AdminReportsPage() {
               <div className="flex justify-between text-sm mb-2">
                 <span>Annual Plans — {yearlyCount ?? 0} subscribers</span>
                 <span className="font-mono font-bold text-accent-warm">
-                  £{yearlyRevenue.toLocaleString(undefined, { minimumFractionDigits: 2 })} / yr
+                  ₹{yearlyRevenue.toLocaleString(undefined, { minimumFractionDigits: 2 })} / yr
                 </span>
               </div>
               <div className="h-2 w-full bg-surface rounded-full overflow-hidden">
@@ -207,7 +207,7 @@ export default async function AdminReportsPage() {
                       {c.charities?.name ?? "Unknown"}
                     </span>
                     <span className="font-mono font-bold text-accent-warm">
-                      £
+                      ₹
                       {c.total.toLocaleString(undefined, {
                         minimumFractionDigits: 2,
                       })}

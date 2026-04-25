@@ -204,7 +204,7 @@ export default function AdminUsersClient({ users }: Props) {
                             <span className="text-sm">
                               Renewal:{" "}
                               <strong>
-                                {new Date(subscription.current_period_end).toLocaleDateString("en-GB")}
+                                {new Date(subscription.current_period_end).toLocaleDateString("en-IN")}
                               </strong>
                             </span>
                           </>
@@ -305,7 +305,7 @@ export default function AdminUsersClient({ users }: Props) {
                                   {score.score} pts
                                 </span>
                                 <span className="text-sm text-muted flex-1">
-                                  {new Date(score.score_date).toLocaleDateString("en-GB")}
+                                  {new Date(score.score_date).toLocaleDateString("en-IN")}
                                 </span>
                                 <Button
                                   variant="ghost"

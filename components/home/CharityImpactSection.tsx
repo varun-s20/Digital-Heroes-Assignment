@@ -40,7 +40,7 @@ export function CharityImpactSection() {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="text-hero font-jetbrains-mono font-bold text-accent drop-shadow-[0_0_30px_rgba(0,229,153,0.3)] mb-4"
           >
-            £{count.toLocaleString('en-GB')}
+            ₹{count.toLocaleString('en-IN')}
           </motion.div>
           <p className="text-xl text-muted">Donated to partner charities this month.</p>
         </div>

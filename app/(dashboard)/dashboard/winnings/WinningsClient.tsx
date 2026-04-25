@@ -26,7 +26,7 @@ interface Props {
 }
 
 function formatMonth(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+  return new Date(dateStr).toLocaleDateString('en-IN', { month: 'long', year: 'numeric' });
 }
 
 export default function WinningsClient({ userId, winnings }: Props) {
@@ -105,7 +105,7 @@ export default function WinningsClient({ userId, winnings }: Props) {
       <div className="bg-gradient-to-br from-surface to-bg border border-border p-8 rounded-3xl text-center md:text-left flex flex-col md:flex-row justify-between items-center gap-8 shadow-xl">
         <div>
           <div className="text-sm font-medium text-muted uppercase tracking-widest mb-2">Total Verified Winnings</div>
-          <div className="text-5xl font-mono font-bold text-accent">£{totalWon.toLocaleString()}</div>
+          <div className="text-5xl font-mono font-bold text-accent">₹{totalWon.toLocaleString()}</div>
         </div>
       </div>
 
@@ -125,7 +125,7 @@ export default function WinningsClient({ userId, winnings }: Props) {
               </CardTitle>
             </div>
             <CardDescription className="text-text">
-              Tier: <strong>{w.tier.replace('_', ' ').toUpperCase()}</strong> — Prize: <strong className="text-accent">£{w.amount.toLocaleString()}</strong>
+              Tier: <strong>{w.tier.replace('_', ' ').toUpperCase()}</strong> — Prize: <strong className="text-accent">₹{w.amount.toLocaleString()}</strong>
               {w.status === 'rejected' && w.rejection_reason && (
                 <div className="mt-2 text-danger text-sm">Reason: {w.rejection_reason}</div>
               )}
@@ -188,7 +188,7 @@ export default function WinningsClient({ userId, winnings }: Props) {
                     {w.draws ? formatMonth(w.draws.draw_month) : '—'}
                   </TableCell>
                   <TableCell>{w.tier.replace('_', ' ').toUpperCase()}</TableCell>
-                  <TableCell className="font-mono font-bold text-text">£{w.amount.toLocaleString()}</TableCell>
+                  <TableCell className="font-mono font-bold text-text">₹{w.amount.toLocaleString()}</TableCell>
                   <TableCell className="text-right">
                     {w.status === 'paid' && <Badge variant="success">Paid Out</Badge>}
                     {w.status === 'verified' && <Badge className="bg-blue-500 hover:bg-blue-600 text-white">Verified</Badge>}

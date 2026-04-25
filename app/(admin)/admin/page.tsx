@@ -59,7 +59,7 @@ export default async function AdminOverviewPage() {
   // Group into last 6 months
   const monthCounts: Record<string, number> = {};
   (subscriptionHistory ?? []).forEach((sub: { created_at: string }) => {
-    const m = new Date(sub.created_at).toLocaleDateString("en-GB", {
+    const m = new Date(sub.created_at).toLocaleDateString("en-IN", {
       month: "short",
       year: "2-digit",
     });
@@ -93,13 +93,13 @@ export default async function AdminOverviewPage() {
         />
         <StatCard
           title="Last Draw Pool"
-          value={`£${latestDrawPool.toLocaleString(undefined, { minimumFractionDigits: 2 })}`}
+          value={`₹${latestDrawPool.toLocaleString(undefined, { minimumFractionDigits: 2 })}`}
           icon={Trophy}
           trend="Last published draw"
         />
         <StatCard
           title="Total Charity Raised"
-          value={`£${totalCharityRaised.toLocaleString(undefined, { minimumFractionDigits: 2 })}`}
+          value={`₹${totalCharityRaised.toLocaleString(undefined, { minimumFractionDigits: 2 })}`}
           icon={HeartHandshake}
           trend="All-time"
           trendUp

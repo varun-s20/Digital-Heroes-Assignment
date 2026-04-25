@@ -8,7 +8,7 @@ import Link from "next/link";
 import { PenLine } from "lucide-react";
 
 function formatMonth(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString("en-GB", {
+  return new Date(dateStr).toLocaleDateString("en-IN", {
     day: "numeric",
     month: "long",
     year: "numeric",
@@ -79,7 +79,7 @@ export default async function DrawsPage() {
                   Draw Month
                 </div>
                 <div className="text-2xl font-bold font-fraunces">
-                  {new Date(nextDraw.draw_month).toLocaleDateString("en-GB", {
+                  {new Date(nextDraw.draw_month).toLocaleDateString("en-IN", {
                     month: "long",
                     year: "numeric",
                   })}
@@ -120,14 +120,14 @@ export default async function DrawsPage() {
                 </div>
                 <div className="text-2xl font-mono font-bold text-text">
                   {nextDraw.prize_pool_total
-                    ? `£${nextDraw.prize_pool_total.toLocaleString()}`
+                    ? `₹${nextDraw.prize_pool_total.toLocaleString()}`
                     : "Pending calculation"}
                 </div>
                 {nextDraw.prize_pool_total && (
                   <div className="text-xs text-muted mt-1 space-y-0.5">
-                    <div>5-match (jackpot): £{((nextDraw.tier_5_pool ?? 0)).toLocaleString(undefined, {minimumFractionDigits: 2})}</div>
-                    <div>4-match: £{((nextDraw.tier_4_pool ?? 0)).toLocaleString(undefined, {minimumFractionDigits: 2})}</div>
-                    <div>3-match: £{((nextDraw.tier_3_pool ?? 0)).toLocaleString(undefined, {minimumFractionDigits: 2})}</div>
+                    <div>5-match (jackpot): ₹{((nextDraw.tier_5_pool ?? 0)).toLocaleString(undefined, {minimumFractionDigits: 2})}</div>
+                    <div>4-match: ₹{((nextDraw.tier_4_pool ?? 0)).toLocaleString(undefined, {minimumFractionDigits: 2})}</div>
+                    <div>3-match: ₹{((nextDraw.tier_3_pool ?? 0)).toLocaleString(undefined, {minimumFractionDigits: 2})}</div>
                   </div>
                 )}
               </div>
@@ -209,7 +209,7 @@ export default async function DrawsPage() {
                         {myWin ? (
                           <div>
                             <span className="font-mono font-bold text-accent">
-                              £{myWin.amount.toLocaleString()}
+                              ₹{myWin.amount.toLocaleString()}
                             </span>
                             <div className="text-xs text-muted">
                               {myWin.status}

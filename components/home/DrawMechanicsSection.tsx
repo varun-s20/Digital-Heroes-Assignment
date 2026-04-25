@@ -90,7 +90,7 @@ export function DrawMechanicsSection() {
                     <span className="font-medium">Match {tier.matchCount} Numbers</span>
                   </div>
                   <div className="text-right">
-                    <div className="font-mono text-lg font-bold text-text">Est. £{tier.prizePerWinner?.toLocaleString() || '0'}</div>
+                    <div className="font-mono text-lg font-bold text-text">Est. ₹{tier.prizePerWinner?.toLocaleString() || '0'}</div>
                     <div className="text-xs text-muted">Prize per winner</div>
                   </div>
                 </div>
@@ -109,7 +109,7 @@ export function DrawMechanicsSection() {
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-accent to-accent-warm" />
               <h3 className="text-xl font-medium mb-2 text-muted">Next Draw</h3>
               <p className="text-3xl font-fraunces font-bold mb-10">
-                {upcomingDrawDate ? new Date(upcomingDrawDate).toLocaleDateString('en-GB', { month: 'long', year: 'numeric', day: 'numeric' }) : 'Loading...'}
+                {upcomingDrawDate ? new Date(upcomingDrawDate).toLocaleDateString('en-IN', { month: 'long', year: 'numeric', day: 'numeric' }) : 'Loading...'}
               </p>
               
               <div className="flex justify-center gap-4 md:gap-6">
@@ -127,7 +127,7 @@ export function DrawMechanicsSection() {
               
               <div className="mt-10 pt-8 border-t border-border">
                 <p className="text-sm text-muted">
-                  Estimated Total Prize Pool: <span className="text-text font-mono font-bold">£{estimatedPrizePool.toLocaleString()}</span>
+                  Estimated Total Prize Pool: <span className="text-text font-mono font-bold">₹{estimatedPrizePool.toLocaleString()}</span>
                 </p>
               </div>
             </div>

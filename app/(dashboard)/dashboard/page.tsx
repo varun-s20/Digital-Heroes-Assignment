@@ -95,7 +95,7 @@ export default async function DashboardHome() {
 
   const firstName = profile?.full_name?.split(" ")[0] ?? "there";
   const renewalDate = subscription?.current_period_end
-    ? new Date(subscription.current_period_end).toLocaleDateString("en-GB", {
+    ? new Date(subscription.current_period_end).toLocaleDateString("en-IN", {
         day: "numeric",
         month: "long",
         year: "numeric",
@@ -103,7 +103,7 @@ export default async function DashboardHome() {
     : null;
 
   const nextDrawDate = nextDraw?.draw_month
-    ? new Date(nextDraw.draw_month).toLocaleDateString("en-GB", {
+    ? new Date(nextDraw.draw_month).toLocaleDateString("en-IN", {
         day: "numeric",
         month: "short",
       })
@@ -161,7 +161,7 @@ export default async function DashboardHome() {
           icon={Calendar}
           trend={
             nextDraw?.prize_pool_total
-              ? `Pool: £${nextDraw.prize_pool_total.toLocaleString()}`
+              ? `Pool: ₹${nextDraw.prize_pool_total.toLocaleString()}`
               : "Draw pending"
           }
         />
@@ -178,12 +178,12 @@ export default async function DashboardHome() {
         />
         <StatCard
           title="Total Won"
-          value={`£${totalWon.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
+          value={`₹${totalWon.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
           icon={Trophy}
         />
         <StatCard
           title="Charity Contributed"
-          value={`£${totalContributed.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
+          value={`₹${totalContributed.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
           icon={Heart}
           trend={`To ${charityName}`}
         />

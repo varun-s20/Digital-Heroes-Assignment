@@ -23,7 +23,7 @@ interface Props {
 }
 
 function formatMonth(d: string) {
-  return new Date(d).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+  return new Date(d).toLocaleDateString('en-IN', { month: 'long', year: 'numeric' });
 }
 
 export default function AdminWinnersClient({ winnings }: Props) {
@@ -86,7 +86,7 @@ export default function AdminWinnersClient({ winnings }: Props) {
                 <div className="text-xs text-muted mt-1">{w.draws ? formatMonth(w.draws.draw_month) : '—'}</div>
               </div>
               <div className="text-right">
-                <div className="text-2xl font-mono font-bold text-accent">£{w.amount.toLocaleString()}</div>
+                <div className="text-2xl font-mono font-bold text-accent">₹{w.amount.toLocaleString()}</div>
                 <div className="text-xs text-muted">{w.tier.replace('_', ' ').toUpperCase()}</div>
               </div>
             </div>
@@ -175,7 +175,7 @@ export default function AdminWinnersClient({ winnings }: Props) {
                   </td>
                   <td className="px-4 py-3">{w.draws ? formatMonth(w.draws.draw_month) : '—'}</td>
                   <td className="px-4 py-3">{w.tier.replace('_', ' ').toUpperCase()}</td>
-                  <td className="px-4 py-3 font-mono font-bold text-accent">£{w.amount.toLocaleString()}</td>
+                  <td className="px-4 py-3 font-mono font-bold text-accent">₹{w.amount.toLocaleString()}</td>
                   <td className="px-4 py-3">
                     {w.status === 'paid' && <Badge variant="success">Paid</Badge>}
                     {w.status === 'verified' && <Badge className="bg-blue-500 text-white">Verified</Badge>}

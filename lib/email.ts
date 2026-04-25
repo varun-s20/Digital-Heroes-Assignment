@@ -79,7 +79,7 @@ export async function sendDrawResultsEmail(
 ): Promise<SendResult> {
   const drawnHtml = drawnNumbers.map(n => `<span class="number-badge">${n}</span>`).join('')
   const tierHtml = tier
-    ? `<div class="card"><p style="color:${accent};font-size:20px;font-weight:700">🏆 You matched ${matchCount} numbers! (${tier.replace('_', ' ').toUpperCase()})</p><p>Prize: <strong style="color:${accent}">£${prizeAmount?.toLocaleString()}</strong> — check your winnings page to submit proof.</p></div>`
+    ? `<div class="card"><p style="color:${accent};font-size:20px;font-weight:700">🏆 You matched ${matchCount} numbers! (${tier.replace('_', ' ').toUpperCase()})</p><p>Prize: <strong style="color:${accent}">₹${prizeAmount?.toLocaleString()}</strong> — check your winnings page to submit proof.</p></div>`
     : `<div class="card"><p>You matched ${matchCount} number(s) this month. Better luck next time!</p></div>`
 
   const html = emailWrapper(`
@@ -104,7 +104,7 @@ export async function sendWinnerNotificationEmail(
     <p>You've won a prize in this month's Digital Heroes draw!</p>
     <div class="card">
       <p>Tier: <strong>${tier.replace('_', ' ').toUpperCase()}</strong></p>
-      <p>Amount: <strong style="color:${accent};font-size:28px">£${amount.toLocaleString()}</strong></p>
+      <p>Amount: <strong style="color:${accent};font-size:28px">₹${amount.toLocaleString()}</strong></p>
     </div>
     <p>To claim your prize, please submit proof of your identity via your winnings page.</p>
     <p style="text-align:center;margin-top:32px"><a href="${process.env.NEXT_PUBLIC_APP_URL}/dashboard/winnings" class="btn">Submit Proof Now</a></p>
@@ -123,7 +123,7 @@ export async function sendProofSubmittedAdminEmail(
     <div class="card">
       <p>Winner: <strong>${winnerName}</strong></p>
       <p>Tier: <strong>${tier.replace('_', ' ').toUpperCase()}</strong></p>
-      <p>Amount: <strong>£${amount.toLocaleString()}</strong></p>
+      <p>Amount: <strong>₹${amount.toLocaleString()}</strong></p>
     </div>
     <p style="text-align:center;margin-top:32px"><a href="${process.env.NEXT_PUBLIC_APP_URL}/admin/winners" class="btn">Review in Admin Panel</a></p>
   `)
@@ -139,7 +139,7 @@ export async function sendWinnerVerifiedEmail(
     <h1>Your proof has been approved ✅</h1>
     <p>Hi ${name}, great news — your identity has been verified.</p>
     <div class="card">
-      <p>Prize amount: <strong style="color:${accent}">£${amount.toLocaleString()}</strong></p>
+      <p>Prize amount: <strong style="color:${accent}">₹${amount.toLocaleString()}</strong></p>
       <p>Our team will arrange your bank transfer within 5 business days.</p>
     </div>
     <p style="text-align:center;margin-top:32px"><a href="${process.env.NEXT_PUBLIC_APP_URL}/dashboard/winnings" class="btn">View Winnings</a></p>

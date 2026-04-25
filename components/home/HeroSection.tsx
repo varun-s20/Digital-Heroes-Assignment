@@ -39,7 +39,7 @@ export function HeroSection() {
         >
           <motion.div variants={fadeUp} className="inline-flex items-center rounded-full border border-accent/30 bg-accent/10 px-3 py-1 text-sm text-accent backdrop-blur-sm">
             <span className="flex h-2 w-2 rounded-full bg-accent mr-2 animate-pulse" />
-            Over £250,000 raised for charities this year
+            Over ₹250,000 raised for charities this year
           </motion.div>
           
           <motion.h1 variants={fadeUp} className="text-hero leading-[1.1] tracking-tight">

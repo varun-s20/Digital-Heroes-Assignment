@@ -155,9 +155,9 @@ export default function CharityDashboardClient({
                   disabled={!subscriptionId || isPending}
                 />
                 <p className="text-xs text-muted mt-4">
-                  Based on your £{planAmount.toFixed(2)}/mo plan, your charity receives{" "}
+                  Based on your ₹{planAmount.toFixed(2)}/mo plan, your charity receives{" "}
                   <strong className="text-text">
-                    £{(planAmount * (contribution[0] / 100)).toFixed(2)}
+                    ₹{(planAmount * (contribution[0] / 100)).toFixed(2)}
                   </strong>{" "}
                   every month.
                 </p>
@@ -184,7 +184,7 @@ export default function CharityDashboardClient({
             <CardContent>
               <div className="flex items-center gap-4">
                 <div className="relative flex-1">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted">£</span>
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted">₹</span>
                   <Input type="number" placeholder="50.00" className="pl-8" />
                 </div>
                 <Button variant="outline" disabled>
