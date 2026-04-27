@@ -62,6 +62,7 @@ export default function SettingsClient({ userId, profile, subscription }: Props)
       const result = await updateContributionPct(userId, contributionPct);
       if (!result.success) { setError(result.error ?? 'Failed to update.'); return; }
       setSuccess('Contribution percentage updated. Takes effect on next billing cycle.');
+      router.refresh();
     });
   };
 
@@ -125,7 +126,7 @@ export default function SettingsClient({ userId, profile, subscription }: Props)
             </div>
           </CardContent>
           <CardFooter className="border-t border-border pt-6">
-            <Button onClick={handleSaveProfile} disabled={isPending}>
+            <Button onClick={handleSaveProfile} disabled={isPending} variant="outline">
               {isPending ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
               Save Profile
             </Button>

@@ -32,6 +32,17 @@ export async function addScore(
 
   const supabase = await createClient()
 
+  // Check for active subscription
+  const { data: sub } = await supabase
+    .from('subscriptions')
+    .select('status')
+    .eq('user_id', userId)
+    .single()
+
+  if (!sub || (sub.status !== 'active' && sub.status !== 'trialing')) {
+    return { success: false, error: 'You need an active subscription to add scores.' }
+  }
+
   // Check for duplicate date
   const { data: existing } = await supabase
     .from('scores')

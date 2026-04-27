@@ -167,6 +167,7 @@ export default function CharityDashboardClient({
               <Button
                 onClick={handleSaveContribution}
                 disabled={!subscriptionId || isPending}
+                variant="outline"
               >
                 {isPending ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
                 Save Preferences
